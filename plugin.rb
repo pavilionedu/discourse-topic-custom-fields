@@ -36,14 +36,8 @@ after_initialize do
   # type:        step
   # number:      1
   # title:       Register the field
-  # description: Where we tell discourse what kind of field we're adding.
-  ##
-  
-  ##
-  # type:        step
-  # number:      1.1
-  # title:       Register the type
-  # description: You can register a string, integer, boolean or json field.
+  # description: Where we tell discourse what kind of field we're adding. You can
+  #              register a string, integer, boolean or json field.
   # references:  lib/plugins/instance.rb,
   #              app/models/concerns/has_custom_fields.rb
   ##
