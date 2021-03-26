@@ -84,9 +84,9 @@ after_initialize do
   # type:        step
   # number:      3
   # title:       Update the field when the topic is created or updated
-  # description: Topic creation is contingent on post creation. This means alot
-  #              of the topic CRUD methods are associated with the same classes
-  #              that handle post CRUD.
+  # description: Topic creation is contingent on post creation. This means that
+  #              many of the topic update classes are associated with the post
+  #              update classes.
   ##
   
   ##
@@ -95,7 +95,7 @@ after_initialize do
   # title:       Update on topic creation
   # description: Here we're using an event callback to update the field after the
   #              first post in the topic, and the topic itself, is created.
-  # referencess: lib/plugins/instance.rb,
+  # references:  lib/plugins/instance.rb,
   #              lib/post_creator.rb
   ##
   on(:topic_created) do |topic, opts, user|
