@@ -5,8 +5,8 @@ import { isDefined, fieldInputTypes } from '../lib/topic-custom-field';
 
 /* 
  * type:        example
- * description: Change these constants, and the same constants on the server, to
- *              change the field name and type.
+ * description: Change these constants, and the same constants on the server,
+ *              to change the field name and type.
  * references:  plugins/discourse-topic-custom-fields/plugin.rb
  */
 const FIELD_NAME = 'price';
@@ -22,8 +22,8 @@ export default {
        * type:        step
        * number:      5
        * title:       Show an input in the composer
-       * description: If your field can be created or edited by users, you need to
-       *              show an input in the composer.
+       * description: If your field can be created or edited by users, you need
+       *              to show an input in the composer.
        * references:  app/assets/javascripts/discourse/app/templates/composer.hbs,
        *              app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
@@ -32,16 +32,16 @@ export default {
        * type:        step
        * number:      5.1
        * title:       Setup the composer connector class
-       * description: Set the actions and properties you'll need in the composer
-       *              connector template.
+       * description: Set the actions and properties you'll need in the
+       *              composer connector template.
        * references:  app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
       api.registerConnectorClass('composer-fields', 'composer-topic-custom-field-container', {
         setupComponent(attrs, component) {
           const model = attrs.model;
           
-          // If the first post is being edited we need to pass our value from the
-          // topic model to the composer model.
+          // If the first post is being edited we need to pass our value from
+          // the topic model to the composer model.
           if (!isDefined(model[FIELD_NAME]) && model.topic && model.topic[FIELD_NAME]) {
             model.set(FIELD_NAME, model.topic[FIELD_NAME]);
           }
@@ -64,7 +64,8 @@ export default {
        * type:        step
        * number:      5.2
        * title:       Render an input in the composer
-       * description: Render an input where the user can edit your field in the composer.
+       * description: Render an input where the user can edit your field in the
+       *              composer.
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/composer-fields/composer-topic-custom-field-container.hbs
        * references:  app/assets/javascripts/discourse/app/templates/composer.hbs
        */
@@ -73,8 +74,9 @@ export default {
        * type:        step
        * number:      6
        * title:       Show an input in topic title edit
-       * description: If your field can be edited by the topic creator or staff,
-       *              you may want to let them do this in the topic title edit view.
+       * description: If your field can be edited by the topic creator or
+       *              staff, you may want to let them do this in the topic
+       *              title edit view.
        * references:  app/assets/javascripts/discourse/app/templates/topic.hbs,
        *              app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
@@ -83,8 +85,8 @@ export default {
        * type:        step
        * number:      6.1
        * title:       Setup the edit topic connector class
-       * description: Set the actions and properties you'll need in the edit topic
-       *              connector template.
+       * description: Set the actions and properties you'll need in the edit
+       *              topic connector template.
        * references:  app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
       api.registerConnectorClass('edit-topic', 'edit-topic-custom-field-container', {
@@ -109,7 +111,8 @@ export default {
        * type:        step
        * number:      6.2
        * title:       Render an input in topic edit
-       * description: Render an input where the user can edit your field in topic edit.
+       * description: Render an input where the user can edit your field in
+       *              topic edit.
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/edit-topic/edit-topic-custom-field-container.hbs
        * references:  app/assets/javascripts/discourse/app/templates/topic.hbs
        */
@@ -118,8 +121,8 @@ export default {
        * type:        step
        * number:      7
        * title:       Serialize your field to the server
-       * description: Send your field along with the post and topic data saved by
-       *              the user when creating a new topic, saving a draft, or
+       * description: Send your field along with the post and topic data saved
+       *              by the user when creating a new topic, saving a draft, or
        *              editing the first post of an existing topic.
        * references:  app/assets/javascripts/discourse/app/lib/plugin-api.js.es6,
        *              app/assets/javascripts/discourse/app/models/composer.js.es6
@@ -133,14 +136,16 @@ export default {
        * number:      8
        * title:       Display your field value
        * description: Display the value of your custom topic field below the 
-       *              title in the topic, and after the title in the topic list.
+       *              title in the topic, and after the title in the topic
+       *              list.
        */
       
       /*
        * type:        step
        * number:      8.1
        * title:       Setup the topic title connector component
-       * description: Set the actions and properties you'll need in the topic title
+       * description: Set the actions and properties you'll need in the topic
+       *              title
        *              connector template.
        * references:  app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
@@ -171,8 +176,9 @@ export default {
        * type:        step
        * number:      8.2
        * title:       Render the value in the topic title plugin outlet
-       * description: Render the value of the custom topic field under the topic title,
-       *              unless the topic title is currently being edited.
+       * description: Render the value of the custom topic field under the
+       *              topic title, unless the topic title is currently being
+       *              edited.
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/topic-title/topic-title-custom-field-container.hbs
        * references:  app/assets/javascripts/discourse/app/templates/topic.hbs
        */
@@ -182,8 +188,9 @@ export default {
        * number:      8.3
        * title:       Setup the topic list item component
        * description: Setup the properties you'll need in the topic list item
-       *              template. You can't do this in a connector js file, as the
-       *              topic list item is a raw template, which don't support js.
+       *              template. You can't do this in a connector js file, as
+       *              the topic list item is a raw template, which don't
+       *              support js.
        * references:  app/assets/javascripts/discourse/app/components/topic-list-item.js.es6,
        *              app/assets/javascripts/discourse/app/helpers/raw-plugin-outlet.js.es6
        */
@@ -198,9 +205,10 @@ export default {
       /*
        * type:        step
        * number:      8.4
-       * title:       Render the value in the topic list after title plugin outlet
-       * description: Render the value of the custom topic field in the topic list,
-       *              after the topic title.
+       * title:       Render the value in the topic list after title plugin
+       *              outlet
+       * description: Render the value of the custom topic field in the topic
+       *              list, after the topic title.
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/topic-list-after-title/topic-list-after-title-custom-field-container.hbr
        * references:  app/assets/javascripts/discourse/app/templates/list/topic-list-item.hbr
        */

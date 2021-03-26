@@ -13,11 +13,11 @@ register_asset 'stylesheets/common.scss'
 ## 
 # type:        introduction
 # title:       Add a custom field to a topic
-# description: This discourse plugin shows how to add a custom field to a topic.
-#              Use the example below to easily create your own field, or follow
-#              the steps to learn how it works. If you want to learn more about
-#              how each step works, follow the links in the "references" section
-#              of each step.
+# description: This discourse plugin shows how to add a custom field to a
+#              topic. Use the example below to easily create your own field,
+#              or follow the steps to learn how it works. If you want to learn
+#              more about how each step works, follow the links in the
+#              "references" section of each step.
 ##
 
 ## 
@@ -36,8 +36,8 @@ after_initialize do
   # type:        step
   # number:      1
   # title:       Register the field
-  # description: Where we tell discourse what kind of field we're adding. You can
-  #              register a string, integer, boolean or json field.
+  # description: Where we tell discourse what kind of field we're adding. You
+  #              can register a string, integer, boolean or json field.
   # references:  lib/plugins/instance.rb,
   #              app/models/concerns/has_custom_fields.rb
   ##
@@ -93,8 +93,8 @@ after_initialize do
   # type:        step
   # number:      3.1
   # title:       Update on topic creation
-  # description: Here we're using an event callback to update the field after the
-  #              first post in the topic, and the topic itself, is created.
+  # description: Here we're using an event callback to update the field after
+  #              the first post in the topic, and the topic itself, is created.
   # references:  lib/plugins/instance.rb,
   #              lib/post_creator.rb
   ##
@@ -107,8 +107,9 @@ after_initialize do
   # type:        step
   # number:      3.2
   # title:       Update on topic edit
-  # description: Update the field when it's updated in the composer when editing
-  #              the first post in the topic, or in the topic title edit view.
+  # description: Update the field when it's updated in the composer when
+  #              editing the first post in the topic, or in the topic title
+  #              edit view.
   # references:  lib/plugins/instance.rb,
   #              lib/post_revisor.rb
   ##
@@ -121,7 +122,8 @@ after_initialize do
   # type:        step
   # number:      4
   # title:       Serialize the field
-  # description: Send our field to the client, along with the other topic fields.
+  # description: Send our field to the client, along with the other topic
+  #              fields.
   # references:  lib/plugins/instance.rb,
   #              lib/topic_view.rb,
   #              app/serializers/topic_view_serializer.rb
