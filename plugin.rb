@@ -16,7 +16,7 @@ register_asset 'stylesheets/common.scss'
 # description: This discourse plugin shows how to add a custom field to a topic.
 #              Use the example below to easily create your own field, or follow
 #              the steps to learn how it works. If you want to learn more about
-#              how each step works, follow the links in the "References" section
+#              how each step works, follow the links in the "references" section
 #              of each step.
 ##
 
@@ -25,7 +25,7 @@ register_asset 'stylesheets/common.scss'
 # description: Change these constants, and the same constants in client, to
 #              change the field name and type. The name must not contain spaces
 #              and the type can be 'string', 'integer', 'boolean' or 'json'.
-# references:  plugins/discourse-topic-custom-fields/assets/javascripts/discourse/lib/topic-custom-field.js.es6
+# references:  plugins/discourse-topic-custom-fields/assets/javascripts/discourse/initializers/topic-custom-field-initializer.js.es6
 ##
 FIELD_NAME ||= 'price'
 FIELD_TYPE ||= 'integer'
@@ -42,7 +42,7 @@ after_initialize do
   ##
   # type:        step
   # number:      1.1
-  # title:       Register the data type
+  # title:       Register the type
   # description: You can register a string, integer, boolean or json field.
   # references:  lib/plugins/instance.rb,
   #              app/models/concerns/has_custom_fields.rb

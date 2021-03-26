@@ -1,11 +1,21 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import discourseComputed from "discourse-common/utils/decorators";
-import { FIELD_NAME, FIELD_INPUT_TYPE } from '../lib/topic-custom-field';
 import { alias } from '@ember/object/computed';
+import { isDefined, fieldInputTypes } from '../lib/topic-custom-field';
+
+/* 
+ * type:        example
+ * description: Change these constants, and the same constants on the server, to
+ *              change the field name and type.
+ * references:  plugins/discourse-topic-custom-fields/plugin.rb
+ */
+const FIELD_NAME = 'price';
+const FIELD_TYPE = 'integer';
 
 export default {
   name: "topic-custom-field-intializer",
   initialize(container) {
+    
     withPluginApi('0.11.2', api => {
       
       /*
@@ -32,16 +42,15 @@ export default {
           
           // If the first post is being edited we need to pass our value from the
           // topic model to the composer model.
-          const fieldNotSet = model[FIELD_NAME] === null || model[FIELD_NAME] === undefined;
-          if (fieldNotSet && model.topic && model.topic[FIELD_NAME]) {
+          if (!isDefined(model[FIELD_NAME]) && model.topic && model.topic[FIELD_NAME]) {
             model.set(FIELD_NAME, model.topic[FIELD_NAME]);
           }
           
-          component.setProperties({
+          let props = {
             fieldName: FIELD_NAME,
-            fieldValue: model.get(FIELD_NAME),
-            fieldInputType: FIELD_INPUT_TYPE
-          });
+            fieldValue: model.get(FIELD_NAME)
+          }
+          component.setProperties(Object.assign(props, fieldInputTypes(FIELD_TYPE)));
         },
         
         actions: {
@@ -82,11 +91,11 @@ export default {
         setupComponent(attrs, component) {
           const model = attrs.model;
           
-          component.setProperties({
+          let props = {
             fieldName: FIELD_NAME,
-            fieldValue: model[FIELD_NAME],
-            fieldInputType: FIELD_INPUT_TYPE
-          });
+            fieldValue: model.get(FIELD_NAME)
+          }
+          component.setProperties(Object.assign(props, fieldInputTypes(FIELD_TYPE)));
         },
         
         actions: {
@@ -139,16 +148,16 @@ export default {
         setupComponent(attrs, component) {
           const model = attrs.model;
           const controller = container.lookup('controller:topic');
-
+          
           component.setProperties({
             fieldName: FIELD_NAME,
-            fieldValue: model[FIELD_NAME],
-            showField: !controller.get('editingTopic')
+            fieldValue: model.get(FIELD_NAME),
+            showField: !controller.get('editingTopic') && isDefined(model.get(FIELD_NAME))
           });
 
           controller.addObserver('editingTopic', () => {
             if (this._state === 'destroying') return;
-            component.set('showField', !controller.get('editingTopic'));
+            component.set('showField', !controller.get('editingTopic') && isDefined(model.get(FIELD_NAME)));
           });
           
           model.addObserver(FIELD_NAME, () => {
@@ -179,10 +188,11 @@ export default {
        *              app/assets/javascripts/discourse/app/helpers/raw-plugin-outlet.js.es6
        */
       api.modifyClass('component:topic-list-item', {
-        @discourseComputed(`topic.${FIELD_NAME}`)
-        showCustomField: (value) => (value !== null && value !== undefined),
         customFieldName: FIELD_NAME,
-        customFieldValue: alias(`topic.${FIELD_NAME}`)
+        customFieldValue: alias(`topic.${FIELD_NAME}`),
+
+        @discourseComputed('customFieldValue')
+        showCustomField: (value) => (isDefined(value))
       });
       
       /*

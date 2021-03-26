@@ -1,4 +1,16 @@
 .topic-custom-field-input {
-  width: 475px;
   max-width: 100%;
+
+  &.small {
+    width: 150px;
+  }
+
+  &.large {
+    width: 475px;
+  }
+}
+
+.topic-custom-field-textarea {
+  max-width: 100%;
+  width: 465px;
 }
