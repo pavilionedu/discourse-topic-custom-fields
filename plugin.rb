@@ -13,11 +13,11 @@ register_asset 'stylesheets/common.scss'
 ## 
 # type:        introduction
 # title:       Add a custom field to a topic
-# description: This discourse plugin shows how to add a custom field to a
-#              topic. Use the example below to easily create your own field,
-#              or follow the steps to learn how it works. If you want to learn
-#              more about how each step works, follow the links in the
-#              "references" section of each step.
+# description: In this unit you'll learn how to add a custom field to a
+#              topic. Use the example below to create your own field and
+#              follow the steps to learn how it works. If you want to learn
+#              more about the context behind each step, follow the links in the
+#              'references' section.
 ##
 
 ## 
