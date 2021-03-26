@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # name: discourse-topic-custom-fields
-# about: Plugin showing how to add custom fields to Discourse topics
+# about: Discourse plugin showing how to add custom fields to Discourse topics
 # version: 1.0
 # authors: Angus McLeod
 # contact email: angus@thepavilion.io
