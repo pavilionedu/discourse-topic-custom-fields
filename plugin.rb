@@ -13,24 +13,16 @@ register_asset 'stylesheets/common.scss'
 ## 
 # type:        introduction
 # title:       Add a custom field to a topic
-# description: In this unit you'll learn how to add a custom field to a
-#              topic. Use the example below to create your own field and
-#              follow the steps to learn how it works. If you want to learn
-#              more about the context behind each step, follow the links in the
-#              'references' section.
+# description: To get started, load the [discourse-topic-custom-fields](https://github.com/pavilionedu/discourse-topic-custom-fields)
+#              plugin in your local development environment. Once you've got it
+#              working, follow the steps below and in the client "initializer"
+#              to understand how it works. For more about the context behind
+#              each step, follow the links in the 'references' section.
 ##
-
-## 
-# type:        example
-# description: Change these constants, and the same constants in client, to
-#              change the field name and type. The name must not contain spaces
-#              and the type can be 'string', 'integer', 'boolean' or 'json'.
-# references:  plugins/discourse-topic-custom-fields/assets/javascripts/discourse/initializers/topic-custom-field-initializer.js.es6
-##
-FIELD_NAME ||= 'price'
-FIELD_TYPE ||= 'integer'
 
 after_initialize do
+  FIELD_NAME ||= SiteSetting.topic_custom_field_name
+  FIELD_TYPE ||= SiteSetting.topic_custom_field_type
   
   ## 
   # type:        step
@@ -124,9 +116,6 @@ after_initialize do
   # title:       Serialize the field
   # description: Send our field to the client, along with the other topic
   #              fields.
-  # references:  lib/plugins/instance.rb,
-  #              lib/topic_view.rb,
-  #              app/serializers/topic_view_serializer.rb
   ##
   
   ## 

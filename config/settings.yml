@@ -1,2 +1,16 @@
 plugins:
-  topic_custom_field_enabled: true
+  topic_custom_field_enabled:
+    default: true
+    client: true
+  topic_custom_field_name:
+    default: 'price'
+    client: true
+  topic_custom_field_type:
+    default: 'integer'
+    client: true
+    type: list
+    choices:
+      - string
+      - integer
+      - boolean
+      - json
