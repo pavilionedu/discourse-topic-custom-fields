@@ -130,11 +130,26 @@ after_initialize do
     object.topic.send(FIELD_NAME)
   end
   
-  ## 
+  ##
   # type:        step
   # number:      4.2
+  # title:       Preload the field
+  # description: Discourse preloads custom fields on listable models (i.e.
+  #              categories or topics) before serializing them. This is to
+  #              avoid running a potentially large number of SQL queries 
+  #              ("N+1 Queries") at the point of serialization, which would
+  #              cause performance to be affected.
+  # references:  lib/plugins/instance.rb,
+  #              app/models/topic_list.rb,
+  #              app/models/concerns/has_custom_fields.rb
+  ##
+  add_preloaded_topic_list_custom_field(FIELD_NAME)
+
+  ##
+  # type:        step
+  # number:      4.3
   # title:       Serialize to the topic list
-  # description: Send your field to the topic list.
+  # description: Send your preloaded field to the topic list.
   # references:  lib/plugins/instance.rb,
   #              app/serializers/topic_list_item_serializer.rb
   ##
