@@ -8,7 +8,7 @@ plugins:
   topic_custom_field_type:
     default: 'integer'
     client: true
-    type: list
+    type: enum
     choices:
       - string
       - integer
