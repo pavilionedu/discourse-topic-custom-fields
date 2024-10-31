@@ -4,13 +4,13 @@
 # about: Discourse plugin showing how to add custom fields to Discourse topics
 # version: 1.0
 # authors: Angus McLeod
-# contact email: angus@thepavilion.io
+# contact email: angus@pavilion.tech
 # url: https://github.com/pavilionedu/discourse-topic-custom-fields
 
 enabled_site_setting :topic_custom_field_enabled
-register_asset 'stylesheets/common.scss'
+register_asset "stylesheets/common.scss"
 
-## 
+##
 # type:        introduction
 # title:       Add a custom field to a topic
 # description: To get started, load the [discourse-topic-custom-fields](https://github.com/pavilionedu/discourse-topic-custom-fields)
@@ -21,10 +21,12 @@ register_asset 'stylesheets/common.scss'
 ##
 
 after_initialize do
-  FIELD_NAME ||= SiteSetting.topic_custom_field_name
-  FIELD_TYPE ||= SiteSetting.topic_custom_field_type
-  
-  ## 
+  module ::TopicCustomFields
+    FIELD_NAME = SiteSetting.topic_custom_field_name
+    FIELD_TYPE = SiteSetting.topic_custom_field_type
+  end
+
+  ##
   # type:        step
   # number:      1
   # title:       Register the field
@@ -33,8 +35,11 @@ after_initialize do
   # references:  lib/plugins/instance.rb,
   #              app/models/concerns/has_custom_fields.rb
   ##
-  register_topic_custom_field_type(FIELD_NAME, FIELD_TYPE.to_sym)
-  
+  register_topic_custom_field_type(
+    TopicCustomFields::FIELD_NAME,
+    TopicCustomFields::FIELD_TYPE.to_sym,
+  )
+
   ##
   # type:        step
   # number:      2
@@ -43,7 +48,7 @@ after_initialize do
   #              It means you can handle data validation or normalisation, and
   #              it lets you easily change where you're storing the data.
   ##
-  
+
   ##
   # type:        step
   # number:      2.1
@@ -52,14 +57,14 @@ after_initialize do
   #              app/models/topic.rb,
   #              app/models/concerns/has_custom_fields.rb
   ##
-  add_to_class(:topic, FIELD_NAME.to_sym) do
-    if !custom_fields[FIELD_NAME].nil?
-      custom_fields[FIELD_NAME]
+  add_to_class(:topic, TopicCustomFields::FIELD_NAME.to_sym) do
+    if !custom_fields[TopicCustomFields::FIELD_NAME].nil?
+      custom_fields[TopicCustomFields::FIELD_NAME]
     else
       nil
     end
   end
-  
+
   ##
   # type:        step
   # number:      2.2
@@ -68,10 +73,10 @@ after_initialize do
   #              app/models/topic.rb,
   #              app/models/concerns/has_custom_fields.rb
   ##
-  add_to_class(:topic, "#{FIELD_NAME}=") do |value|
-    custom_fields[FIELD_NAME] = value
+  add_to_class(:topic, "#{TopicCustomFields::FIELD_NAME}=") do |value|
+    custom_fields[TopicCustomFields::FIELD_NAME] = value
   end
-  
+
   ##
   # type:        step
   # number:      3
@@ -80,7 +85,7 @@ after_initialize do
   #              many of the topic update classes are associated with the post
   #              update classes.
   ##
-  
+
   ##
   # type:        step
   # number:      3.1
@@ -91,11 +96,14 @@ after_initialize do
   #              lib/post_creator.rb
   ##
   on(:topic_created) do |topic, opts, user|
-    topic.send("#{FIELD_NAME}=".to_sym, opts[FIELD_NAME.to_sym])
+    topic.send(
+      "#{TopicCustomFields::FIELD_NAME}=".to_sym,
+      opts[TopicCustomFields::FIELD_NAME.to_sym],
+    )
     topic.save!
   end
-  
-  ## 
+
+  ##
   # type:        step
   # number:      3.2
   # title:       Update on topic edit
@@ -105,9 +113,13 @@ after_initialize do
   # references:  lib/plugins/instance.rb,
   #              lib/post_revisor.rb
   ##
-  PostRevisor.track_topic_field(FIELD_NAME.to_sym) do |tc, value|
-    tc.record_change(FIELD_NAME, tc.topic.send(FIELD_NAME), value)
-    tc.topic.send("#{FIELD_NAME}=".to_sym, value.present? ? value : nil)
+  PostRevisor.track_topic_field(TopicCustomFields::FIELD_NAME.to_sym) do |tc, value|
+    tc.record_change(
+      TopicCustomFields::FIELD_NAME,
+      tc.topic.send(TopicCustomFields::FIELD_NAME),
+      value,
+    )
+    tc.topic.send("#{TopicCustomFields::FIELD_NAME}=".to_sym, value.present? ? value : nil)
   end
 
   ##
@@ -117,8 +129,8 @@ after_initialize do
   # description: Send our field to the client, along with the other topic
   #              fields.
   ##
-  
-  ## 
+
+  ##
   # type:        step
   # number:      4.1
   # title:       Serialize to the topic
@@ -126,24 +138,24 @@ after_initialize do
   # references:  lib/plugins/instance.rb,
   #              app/serializers/topic_view_serializer.rb
   ##
-  add_to_serializer(:topic_view, FIELD_NAME.to_sym) do
-    object.topic.send(FIELD_NAME)
+  add_to_serializer(:topic_view, TopicCustomFields::FIELD_NAME.to_sym) do
+    object.topic.send(TopicCustomFields::FIELD_NAME)
   end
-  
+
   ##
   # type:        step
   # number:      4.2
   # title:       Preload the field
   # description: Discourse preloads custom fields on listable models (i.e.
   #              categories or topics) before serializing them. This is to
-  #              avoid running a potentially large number of SQL queries 
+  #              avoid running a potentially large number of SQL queries
   #              ("N+1 Queries") at the point of serialization, which would
   #              cause performance to be affected.
   # references:  lib/plugins/instance.rb,
   #              app/models/topic_list.rb,
   #              app/models/concerns/has_custom_fields.rb
   ##
-  add_preloaded_topic_list_custom_field(FIELD_NAME)
+  add_preloaded_topic_list_custom_field(TopicCustomFields::FIELD_NAME)
 
   ##
   # type:        step
@@ -153,7 +165,7 @@ after_initialize do
   # references:  lib/plugins/instance.rb,
   #              app/serializers/topic_list_item_serializer.rb
   ##
-  add_to_serializer(:topic_list_item, FIELD_NAME.to_sym) do
-    object.send(FIELD_NAME)
+  add_to_serializer(:topic_list_item, TopicCustomFields::FIELD_NAME.to_sym) do
+    object.send(TopicCustomFields::FIELD_NAME)
   end
 end
